@@ -1,0 +1,55 @@
+{
+  "name": "Weekly Marketing KPI Report",
+  "description": "Compiles key marketing metrics from multiple sources every Monday morning and sends a formatted report via email and Slack.",
+  "schedule": "Every Monday at 08:00 WIB",
+  "nodes": [
+    {
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "name": "Weekly Trigger",
+      "note": "Runs every Monday at 08:00 Asia/Jakarta"
+    },
+    {
+      "type": "n8n-nodes-base.googleAnalytics",
+      "name": "Fetch GA4 Data",
+      "note": "Get sessions, users, conversion rate for the past 7 days"
+    },
+    {
+      "type": "n8n-nodes-base.httpRequest",
+      "name": "Fetch Meta Ads Data",
+      "note": "Get spend, impressions, clicks, CTR from Meta Marketing API"
+    },
+    {
+      "type": "n8n-nodes-base.googleSheets",
+      "name": "Fetch Revenue Data",
+      "note": "Get revenue and transaction data from Google Sheets"
+    },
+    {
+      "type": "n8n-nodes-base.openAi",
+      "name": "AI Summary Generator",
+      "note": "Generate human-readable insight and recommendations from the data"
+    },
+    {
+      "type": "n8n-nodes-base.gmail",
+      "name": "Send Email Report",
+      "note": "Send formatted HTML report to stakeholders"
+    },
+    {
+      "type": "n8n-nodes-base.slack",
+      "name": "Post Slack Summary",
+      "note": "Post condensed summary to #marketing-updates channel"
+    }
+  ],
+  "report_sections": [
+    "📊 Traffic Summary (sessions, users, bounce rate)",
+    "💰 Revenue & Conversions",
+    "📣 Ad Performance (spend, ROAS, CPL)",
+    "📧 Email Metrics (open rate, CTR, unsubs)",
+    "🏆 Top Performing Content",
+    "⚠️ Alerts & Anomalies",
+    "📋 AI Recommendations for Next Week"
+  ],
+  "setup": {
+    "required_credentials": ["Google Analytics 4", "Meta Ads API", "Google Sheets", "OpenAI", "Gmail or SMTP", "Slack"],
+    "estimated_setup_time": "2 hours"
+  }
+}
