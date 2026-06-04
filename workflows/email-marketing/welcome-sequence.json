@@ -1,0 +1,64 @@
+{
+  "name": "Welcome Email Sequence (5 Emails)",
+  "description": "Automatically sends a 5-email welcome sequence when a new subscriber is added to Mailchimp. Emails are sent on days 0, 2, 4, 7, and 10 after signup.",
+  "nodes": [
+    {
+      "type": "n8n-nodes-base.webhook",
+      "name": "New Subscriber Webhook",
+      "note": "Connect this to your opt-in form or Mailchimp webhook"
+    },
+    {
+      "type": "n8n-nodes-base.wait",
+      "name": "Wait Node",
+      "note": "Configure delay between emails: 0, 2, 4, 7, 10 days"
+    },
+    {
+      "type": "n8n-nodes-base.sendGrid",
+      "name": "Send Email",
+      "note": "Replace with your email provider: SendGrid, Brevo, Mailchimp, Gmail"
+    },
+    {
+      "type": "n8n-nodes-base.airtable",
+      "name": "Log to CRM",
+      "note": "Optional: log email sends to Airtable for tracking"
+    }
+  ],
+  "setup": {
+    "required_credentials": ["SendGrid API Key OR SMTP", "Airtable API Key (optional)"],
+    "configuration_steps": [
+      "1. Import this workflow to n8n",
+      "2. Set up SendGrid or your email provider credentials",
+      "3. Customize email templates in the 'Send Email' nodes",
+      "4. Configure webhook URL in your opt-in form",
+      "5. Activate the workflow"
+    ],
+    "estimated_setup_time": "30 minutes"
+  },
+  "email_sequence": {
+    "email_1": {
+      "day": 0,
+      "subject": "Selamat datang! Ini yang kamu dapat dari kami 🎉",
+      "purpose": "Deliver lead magnet + set expectations"
+    },
+    "email_2": {
+      "day": 2,
+      "subject": "Kisah di balik {business_name}",
+      "purpose": "Build connection with founder story"
+    },
+    "email_3": {
+      "day": 4,
+      "subject": "Tips terbaik kami yang belum pernah dipublikasikan",
+      "purpose": "Deliver high-value content, build trust"
+    },
+    "email_4": {
+      "day": 7,
+      "subject": "Mereka berhasil — kamu juga bisa",
+      "purpose": "Social proof and case study"
+    },
+    "email_5": {
+      "day": 10,
+      "subject": "Inilah cara kami bisa membantu kamu lebih jauh",
+      "purpose": "Soft introduction of paid offer"
+    }
+  }
+}
