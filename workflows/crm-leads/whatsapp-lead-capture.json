@@ -1,0 +1,44 @@
+{
+  "name": "WhatsApp Lead Capture to CRM",
+  "description": "Captures leads from WhatsApp Business API and automatically creates contacts in Airtable CRM with lead scoring.",
+  "nodes": [
+    {
+      "type": "n8n-nodes-base.webhook",
+      "name": "WhatsApp Webhook",
+      "note": "Receives incoming WhatsApp messages via Meta WhatsApp Cloud API"
+    },
+    {
+      "type": "n8n-nodes-base.code",
+      "name": "Extract Contact Info",
+      "note": "Parse message to extract name, phone, and intent"
+    },
+    {
+      "type": "n8n-nodes-base.openAi",
+      "name": "AI Lead Scoring",
+      "note": "Use GPT to score lead intent: hot/warm/cold"
+    },
+    {
+      "type": "n8n-nodes-base.airtable",
+      "name": "Create/Update CRM Contact",
+      "note": "Create new contact or update existing in Airtable"
+    },
+    {
+      "type": "n8n-nodes-base.slack",
+      "name": "Notify Sales Team",
+      "note": "Alert sales team on Slack for hot leads"
+    }
+  ],
+  "setup": {
+    "required_credentials": [
+      "WhatsApp Cloud API Token",
+      "OpenAI API Key",
+      "Airtable API Key + Base ID",
+      "Slack Bot Token (for notifications)"
+    ],
+    "airtable_schema": {
+      "table": "Leads",
+      "fields": ["Name", "Phone", "Message", "Intent", "Score", "Source", "CreatedAt", "Status"]
+    },
+    "estimated_setup_time": "45 minutes"
+  }
+}
