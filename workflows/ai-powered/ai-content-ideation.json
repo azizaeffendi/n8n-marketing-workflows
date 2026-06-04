@@ -1,0 +1,43 @@
+{
+  "name": "AI Content Ideation — Weekly Batch",
+  "description": "Every Sunday, generates 10 content ideas for the week based on your niche, trending topics, and competitor analysis. Saves ideas to Notion for review.",
+  "schedule": "Every Sunday at 10:00 WIB",
+  "nodes": [
+    {
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "name": "Weekly Trigger",
+      "note": "Runs every Sunday morning"
+    },
+    {
+      "type": "n8n-nodes-base.httpRequest",
+      "name": "Fetch Trending Topics",
+      "note": "Get trending topics from Google Trends API or Reddit"
+    },
+    {
+      "type": "n8n-nodes-base.rssFeedRead",
+      "name": "Competitor RSS",
+      "note": "Read latest articles from competitor blogs"
+    },
+    {
+      "type": "n8n-nodes-base.openAi",
+      "name": "Generate 10 Content Ideas",
+      "note": "GPT-4 generates ideas based on trends + competitor gap + your niche"
+    },
+    {
+      "type": "n8n-nodes-base.notion",
+      "name": "Save to Notion Content Calendar",
+      "note": "Creates new Notion pages for each idea in your content calendar database"
+    },
+    {
+      "type": "n8n-nodes-base.slack",
+      "name": "Notify Team",
+      "note": "Posts idea summary to #content-ideas Slack channel"
+    }
+  ],
+  "ai_prompt_template": "You are a content strategist for [BUSINESS_NICHE]. Based on these trending topics: {trends} and competitor articles: {competitor_content}, generate 10 unique content ideas for next week. For each idea include: title, angle, target keyword, content format (article/video/carousel), and why it would resonate with our audience: [TARGET_AUDIENCE]. Focus on gaps that competitors haven't covered well.",
+  "setup": {
+    "required_credentials": ["OpenAI API Key", "Notion API Key + Database ID", "Slack Bot Token"],
+    "configuration": ["Set your niche in the OpenAI node prompt", "Configure your Notion database schema", "Set up Slack channel for notifications"],
+    "estimated_setup_time": "1 hour"
+  }
+}
